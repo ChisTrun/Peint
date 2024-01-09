@@ -32,33 +32,37 @@ namespace Custom_Paint.Views
         private void PaintView_Loaded(object sender, RoutedEventArgs e)
         {
             var viewModel = (PaintViewModel)this.DataContext;
-            viewModel.RefreshReview = (ui) =>
+            viewModel.OnRefreshPreviewAction = (ui) =>
             {
                 this.PreviewCanvas.Children.Clear();
-                this.PreviewCanvas.Children.Add(ui);
+                if (ui != null)
+                {
+                    this.PreviewCanvas.Children.Add(ui);
+                }
             };
-            viewModel.AcceptReview = (ui) =>
+            viewModel.OnAcceptPreviewAction = () =>
             {
-                this.StoreCanvas.Children.Add(ui);
+                this.StoreCanvas.Children.Clear();
+                foreach (var shape in viewModel.StoredShapes)
+                {
+                    this.StoreCanvas.Children.Add(shape.Draw());
+                }
                 PreviewUpdate.PreviewUpdater(this.StoreCanvas, this.MainCanvas);
             };
-            viewModel.GetStorage = () =>
-            {
-                var res = new List<UIElement>();
-                foreach (UIElement ui in this.StoreCanvas.Children)
-                {
-                    res.Add(ui);
-                }
-                return res;
-            };
-            
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var viewModel = (PaintViewModel)DataContext;
-            Point start = e.GetPosition(sender as Canvas);
-            viewModel.MouseDown.Execute(start);
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                Point start = e.GetPosition(sender as Canvas);
+                viewModel.MouseDown.Execute(start);
+            }
+            else if (e.ChangedButton == MouseButton.Right)
+            {
+                viewModel.IgnorePreview();
+            }
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -73,6 +77,14 @@ namespace Custom_Paint.Views
             viewModel.MouseUp.Execute(sender);
         }
 
-       
+        private void Canvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            var viewModel = (PaintViewModel)DataContext;
+            if (e.Key == Key.Escape)
+            {
+                viewModel.IgnorePreview();
+            }
+        }
+
     }
 }

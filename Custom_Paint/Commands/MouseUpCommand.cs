@@ -18,10 +18,15 @@ namespace Custom_Paint.Commands
         }
         public override void Execute(object? parameter)
         {
-            if (_viewModel.IsDrawing && _viewModel.Preview != null)
+            if (_viewModel.IsDrawing && _viewModel.PreviewObject != null)
             {
                 _viewModel.IsDrawing = false;
-                _viewModel.Preview.ShowAdorner();
+                _viewModel.PreviewObject.ShowAdorner();
+                // Insert / for nor-edtable objects (show adorners will set isSelected of editable -> true)
+                if (_viewModel.PreviewObject.isSelected == false)
+                {
+                    _viewModel.AcceptPreview();
+                }
             }
         }
     }

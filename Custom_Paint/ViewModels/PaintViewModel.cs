@@ -7,18 +7,21 @@ using Custom_Paint.Commands;
 using Custom_Paint.Services;
 using System.Drawing;
 using Point = System.Windows.Point;
+using System.Security.Permissions;
+using System.Windows.Shapes;
 
 namespace Custom_Paint.ViewModels
 {
     public class PaintViewModel : ViewModelBase
     {
+        // ======================================
         // Options
+        // ======================================
+
         public List<Fluent.Button> ListShapeButton { get; set; }
         public List<Fluent.Button> ListSizeButton { get; set; }
 
         public List<double> ListStrokeSize { get; set; } = new List<double>() { 1, 3, 5, 8 };
-
-
 
         private SolidColorBrush _currentColor = System.Windows.Media.Brushes.Black;
         public SolidColorBrush CurrentColor { get { return _currentColor; } set { _currentColor = value; } }
@@ -49,17 +52,16 @@ namespace Custom_Paint.ViewModels
         {
             var control = (Fluent.Button)sender;
             ChoosenShape = (string)control.Tag;
-            if (Preview != null)
+            if (PreviewObject != null)
             {
-                this.Preview.HideAdorner();
-                this.AcceptReview.Invoke(this.Preview.Draw());
-                this.Preview = null;
+                this.AcceptPreview();
             }
         }
         public ICommand SizeButtonClick { get; }
 
-
+        // ======================================
         // Handle
+        // ======================================
 
         private Point _start;
         public Point Start { get { return _start; } set { _start = value; } }
@@ -67,64 +69,43 @@ namespace Custom_Paint.ViewModels
         private Point _end;
         public Point End { get { return _end; } set { _end = value; } }
 
-
         private bool _isDrawing;
         public bool IsDrawing { get { return _isDrawing; } set { _isDrawing = value; } }
-
-
 
         public ICommand MouseDown { get; }
         public ICommand MouseUp { get; }
         public ICommand MouseMove { get; }
 
+        // ======================================
+        // Draw / Preview
+        // ======================================
 
-        //Draw / Preview
-
-        private IShape? _preview;
-        public IShape? Preview
+        private IShape? _previewObject;
+        public IShape? PreviewObject
         {
-            get { return _preview; }
+            get { return _previewObject; }
             set
             {
-                _preview = value;
+                _previewObject = value;
             }
         }
 
-        public UIElement _previewRender;
-        public UIElement PreviewRender
-        {
-            get
-            {
-                return _previewRender;
-            }
-            set
-            {
-                _previewRender = value;
-                RefreshReview.Invoke(_previewRender);
-            }
-        }
+        public UIElement? PreviewRender => _previewObject?.Draw();
 
-        public Action<UIElement> RefreshReview;
-        public Action<UIElement> AcceptReview;
-        public Func<List<UIElement>> GetStorage;
+        // ======================================
+        // Storage
+        // ======================================
 
-        public List<UIElement> GetData()
-        {
-            return GetStorage.Invoke();
-        }
-        
-        //public List<UIElement> Storage { get; set; }
+        public ObservableCollection<IShape> StoredShapes { get; } = new ObservableCollection<IShape>();
 
-
-
-        public ShapeFactory Factory { get; set; }
-        public ICommand ColorButtonClick { get; }
+        // ======================================
+        // ======================================
+        // ======================================
 
         public PaintViewModel()
         {
             this._start = new Point(0, 0);
             this._end = new Point(0, 0);
-            this._isDrawing = false;
             this.ColorButtonClick = new ColorButtonClickCommand(this);
 
             //Handle Canvas
@@ -139,5 +120,52 @@ namespace Custom_Paint.ViewModels
             GetShapeButton();
         }
 
+        public Action OnAcceptPreviewAction;
+        public Action<UIElement?> OnRefreshPreviewAction;
+
+        public ShapeFactory Factory { get; set; }
+        public ICommand ColorButtonClick { get; }
+
+        public void IgnorePreview()
+        {
+            if (this.PreviewObject != null)
+            {
+                this.PreviewObject.HideAdorner();
+                this.PreviewObject = null;
+                this.OnRefreshPreviewAction?.Invoke(null);
+            }
+        }
+
+        public void AcceptPreview()
+        {
+            if (this.PreviewObject != null)
+            {
+                this.PreviewObject.HideAdorner();
+                this.StoredShapes.Add(this.PreviewObject);
+                this.PreviewObject = null;
+                this.OnRefreshPreviewAction?.Invoke(null);
+                this.OnAcceptPreviewAction.Invoke();
+            }
+        }
+
+        public void PreviewUpdate()
+        {
+            if (PreviewRender != null)
+            {
+                OnRefreshPreviewAction?.Invoke(PreviewRender);
+            }
+        }
+
+        public void PreviewUpdateWithEdit()
+        {
+            if (PreviewObject != null && PreviewObject.isSelected == true)
+            {
+                this.PreviewObject.HideAdorner();
+                OnRefreshPreviewAction.Invoke(PreviewObject.Draw());
+                this.PreviewObject.ShowAdorner();
+            }
+        }
     }
 }
+
+

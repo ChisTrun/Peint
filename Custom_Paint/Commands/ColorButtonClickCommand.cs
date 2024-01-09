@@ -22,12 +22,14 @@ namespace Custom_Paint.Commands
 
         public override void Execute(object? parameter)
         {
-            if (parameter != null && _viewModel.Preview != null)
+            if (parameter != null)
             {
                 _viewModel.CurrentColor = (SolidColorBrush)parameter;
-                _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
-                _viewModel.PreviewRender = _viewModel.Preview.Draw();
-                _viewModel.Preview.ShowAdorner();
+                if (_viewModel.PreviewObject != null)
+                {
+                    _viewModel.PreviewObject.StrokeColor = _viewModel.CurrentColor;
+                    _viewModel.PreviewUpdateWithEdit();
+                }
             }
         }
     }

@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\EllipseShape\EllipseShape.csproj" />
     <ProjectReference Include="..\LineShape\LineShape.csproj" />
+    <ProjectReference Include="..\PenTool\PenTool.csproj" />
     <ProjectReference Include="..\RectShape\RectShape.csproj" />
   </ItemGroup>
 

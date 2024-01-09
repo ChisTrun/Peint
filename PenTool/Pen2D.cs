@@ -21,12 +21,13 @@ namespace PenTool
         public override UIElement Draw()
         {
             GeometryCollection Children = new GeometryCollection();
-            for (int i = 0; i < points.Count -1; i++)
+            for (int i = 0; i < points.Count - 1; i++)
             {
-                Children.Add(new LineGeometry(points[i], points[i+1]));
+                Children.Add(new LineGeometry(points[i], points[i + 1]));
             }
-            GeometryGroup Data = new GeometryGroup() { Children = Children};
-            Path path = new Path() {
+            GeometryGroup Data = new GeometryGroup() { Children = Children };
+            Path path = new Path()
+            {
                 Data = Data,
                 StrokeThickness = this.StrokeThickness,
                 Stroke = this.StrokeColor
@@ -45,7 +46,8 @@ namespace PenTool
 
         public override void UpdatePoints(Point newPoint)
         {
-            if(points != null) points.Add(newPoint);
+            if (points != null)
+                points.Add(newPoint);
         }
     }
 

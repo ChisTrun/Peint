@@ -8,7 +8,6 @@ namespace Custom_Paint.Commands
 {
     public class MouseMoveCommand : CommandBase
     {
-
         private PaintViewModel _viewModel;
 
         public MouseMoveCommand(PaintViewModel vm)
@@ -18,11 +17,11 @@ namespace Custom_Paint.Commands
 
         public override void Execute(object? parameter)
         {
-            if (parameter != null && _viewModel.IsDrawing && _viewModel.Preview != null)
+            if (parameter != null && _viewModel.IsDrawing && _viewModel.PreviewObject != null)
             {
                 _viewModel.End = (Point)parameter;
-                _viewModel.Preview.UpdatePoints(_viewModel.End);
-                _viewModel.PreviewRender = _viewModel.Preview.Draw();
+                _viewModel.PreviewObject.UpdatePoints(_viewModel.End);
+                _viewModel.PreviewUpdate();
             }
         }
     }
