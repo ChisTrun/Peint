@@ -1,0 +1,20 @@
+﻿<Window x:Class="Custom_Paint.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Custom_Paint"
+        xmlns:vms ="clr-namespace:Custom_Paint.ViewModels"
+        xmlns:views ="clr-namespace:Custom_Paint.Views"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="My Custom paint" Height="600" Width="1200">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:PaintViewModel}">
+            <views:PaintView />
+        </DataTemplate>
+    </Window.Resources>
+    <ContentControl Content="{Binding CurrentVM}"/>
+</Window>
