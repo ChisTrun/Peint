@@ -21,23 +21,12 @@ namespace Custom_Paint.Commands
 
         public override void Execute(object? parameter)
         {
-            if (parameter != null)
+            if (parameter != null && _viewModel.Preview != null)
             {
                 _viewModel.CurrentStrokeThickness = (double)parameter;
-                foreach (IShape shape in _viewModel.ShapeList)
-                {
-                    if (shape.isSelected)
-                    {
-                        shape.StrokeThickness = _viewModel.CurrentStrokeThickness;
-                    }
-                }
-                _viewModel.RenderList.Clear();
-                foreach (IShape shape in _viewModel.ShapeList)
-                {
-                    _viewModel.RenderList.Add(shape.Draw());
-                    if (shape.isSelected) shape.ShowAdorner();
-                }
-
+                _viewModel.Preview.StrokeThickness = _viewModel.CurrentStrokeThickness;
+                _viewModel.PreviewRender = _viewModel.Preview.Draw();
+                _viewModel.Preview.ShowAdorner();
             }
         }
     }

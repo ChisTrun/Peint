@@ -44,16 +44,19 @@ namespace Custom_Paint.ViewModels
             }
         }
 
-
-
+        public string ChoosenShape { get; set; }
         private void ShapeButtonClick(object sender, RoutedEventArgs e)
         {
             var control = (Fluent.Button)sender;
             ChoosenShape = (string)control.Tag;
+            if (Preview != null)
+            {
+                this.Preview.HideAdorner();
+                this.AcceptReview.Invoke(this.Preview.Draw());
+                this.Preview = null;
+            }
         }
         public ICommand SizeButtonClick { get; }
-
-
 
 
         // Handle
@@ -105,16 +108,8 @@ namespace Custom_Paint.ViewModels
         public Action<UIElement> AcceptReview;
 
 
-
         public ShapeFactory Factory { get; set; }
         public ICommand ColorButtonClick { get; }
-        public List<Fluent.Button> ListShapeButton { get; set; }
-
-        public ICommand ColorButtonClick { get; }
-
-
-
-
 
         public PaintViewModel()
         {
@@ -128,8 +123,6 @@ namespace Custom_Paint.ViewModels
             this.MouseUp = new MouseUpCommand(this);
             this.MouseMove = new MouseMoveCommand(this);
 
-
-            this.RenderList = new ObservableCollection<UIElement>() { };
             //options
             this.ListShapeButton = new List<Fluent.Button>();
             this.Factory = new ShapeFactory();

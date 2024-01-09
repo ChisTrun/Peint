@@ -39,7 +39,8 @@ namespace Custom_Paint.Views
             };
             viewModel.AcceptReview = (ui) =>
             {
-                PreviewUpdate.PreviewUpdater(this.PreviewCanvas, this.MainCanvas);
+                this.StoreCanvas.Children.Add(ui);
+                PreviewUpdate.PreviewUpdater(this.StoreCanvas, this.MainCanvas);
             };
         }
 
@@ -61,5 +62,6 @@ namespace Custom_Paint.Views
             var viewModel = (PaintViewModel)DataContext;
             viewModel.MouseUp.Execute(sender);
         }
+
     }
 }

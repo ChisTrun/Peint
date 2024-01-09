@@ -28,17 +28,21 @@ namespace Custom_Paint.Commands
                     // Insert previous
                     if (_viewModel.Preview != null)
                     {
+                        _viewModel.Preview.HideAdorner();
                         _viewModel.AcceptReview.Invoke(_viewModel.Preview.Draw());
+                        _viewModel.Preview = null;
                     }
-
                     // Create new
-                    _viewModel.Preview = _viewModel.Factory.CreateShape(_viewModel.ChoosenShape);
-                    _viewModel.IsDrawing = true;
-                    _viewModel.Start = (Point)parameter;
-                    _viewModel.Preview.points = new List<Point>() { _viewModel.Start, _viewModel.Start };
-                    _viewModel.Preview.StrokeThickness = 2;
-                    _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
-                    _viewModel.Preview.Fill = Brushes.Transparent;
+                    else
+                    {
+                        _viewModel.Preview = _viewModel.Factory.CreateShape(_viewModel.ChoosenShape);
+                        _viewModel.IsDrawing = true;
+                        _viewModel.Start = (Point)parameter;
+                        _viewModel.Preview.points = new List<Point>() { _viewModel.Start, _viewModel.Start };
+                        _viewModel.Preview.StrokeThickness = 2;
+                        _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
+                        _viewModel.Preview.Fill = Brushes.Transparent;
+                    }
                 }
             }
         }

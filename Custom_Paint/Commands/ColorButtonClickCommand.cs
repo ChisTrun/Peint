@@ -27,6 +27,7 @@ namespace Custom_Paint.Commands
                 _viewModel.CurrentColor = (SolidColorBrush)parameter;
                 _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
                 _viewModel.PreviewRender = _viewModel.Preview.Draw();
+                _viewModel.Preview.ShowAdorner();
             }
         }
     }
