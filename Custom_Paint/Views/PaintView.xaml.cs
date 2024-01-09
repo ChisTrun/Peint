@@ -42,6 +42,16 @@ namespace Custom_Paint.Views
                 this.StoreCanvas.Children.Add(ui);
                 PreviewUpdate.PreviewUpdater(this.StoreCanvas, this.MainCanvas);
             };
+            viewModel.GetStorage = () =>
+            {
+                var res = new List<UIElement>();
+                foreach (UIElement ui in this.StoreCanvas.Children)
+                {
+                    res.Add(ui);
+                }
+                return res;
+            };
+            
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -63,5 +73,6 @@ namespace Custom_Paint.Views
             viewModel.MouseUp.Execute(sender);
         }
 
+       
     }
 }

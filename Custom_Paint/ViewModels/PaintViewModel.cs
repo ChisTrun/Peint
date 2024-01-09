@@ -106,6 +106,15 @@ namespace Custom_Paint.ViewModels
 
         public Action<UIElement> RefreshReview;
         public Action<UIElement> AcceptReview;
+        public Func<List<UIElement>> GetStorage;
+
+        public List<UIElement> GetData()
+        {
+            return GetStorage.Invoke();
+        }
+        
+        //public List<UIElement> Storage { get; set; }
+
 
 
         public ShapeFactory Factory { get; set; }
