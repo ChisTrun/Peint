@@ -1,21 +1,33 @@
-﻿<UserControl x:Class="Custom_Paint.Views.PaintView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
-             xmlns:i ="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Custom_Paint.Views"
-             mc:Ignorable="d" 
-             d:Height="600" d:Width="1200">
+﻿<UserControl
+    x:Class="Custom_Paint.Views.PaintView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Custom_Paint.Views"
+    mc:Ignorable="d"
+    d:Height="600"
+    d:Width="1200">
 
     <UserControl.Resources>
-        <Style x:Key="circleBtn" TargetType="Fluent:Button">
-            <Setter Property="Template">
+        <Style
+            x:Key="circleBtn"
+            TargetType="Fluent:Button">
+            <Setter
+                Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Fluent:Button">
-                        <Border BorderBrush="Gray" BorderThickness="1" Background="{TemplateBinding Background}" CornerRadius="10">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ControlTemplate
+                        TargetType="Fluent:Button">
+                        <Border
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="10">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -24,77 +36,138 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition
+                Height="auto" />
+            <RowDefinition
+                Height="*" />
         </Grid.RowDefinitions>
-        <Fluent:Ribbon Panel.ZIndex="100" x:Name="AppRibbon" CanMinimize="False" Grid.Row="0">
+        <Fluent:Ribbon
+            Panel.ZIndex="100"
+            x:Name="AppRibbon"
+            CanMinimize="False"
+            Grid.Row="0">
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage>
                     <Fluent:BackstageTabControl>
-                        <Fluent:Button Header="New"/>
-                        <Fluent:Button Header="Open"/>
-                        <Fluent:Button Header="Save"/>
+                        <Fluent:Button
+                            Header="New" />
+                        <Fluent:Button
+                            Header="Open" />
+                        <Fluent:Button
+                            Header="Save" />
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
 
             </Fluent:Ribbon.Menu>
-            <Fluent:RibbonTabItem Header="ToolBar ">
-                <Fluent:RibbonGroupBox Header="Shape">
-                    <ItemsControl ItemsSource="{Binding ListShapeButton }">
+            <Fluent:RibbonTabItem
+                Header="ToolBar ">
+                <Fluent:RibbonGroupBox
+                    Header="Shape">
+                    <ItemsControl
+                        ItemsSource="{Binding ListShapeButton }">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
+                                <StackPanel
+                                    Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                 </Fluent:RibbonGroupBox>
-                <Fluent:RibbonGroupBox Header="Color">
-                    <Border Margin="10"  Width="30" Height="30" Background="{Binding CurrentColor}" CornerRadius="20"/>
-                    <WrapPanel Width="100">
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Green"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="red"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="blue"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Orange"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Purple"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Pink"/>
+                <Fluent:RibbonGroupBox
+                    Header="Color">
+                    <Border
+                        Margin="10"
+                        Width="30"
+                        Height="30"
+                        Background="{Binding CurrentColor}"
+                        CornerRadius="20" />
+                    <WrapPanel
+                        Width="100">
+                        <Fluent:Button
+                            Margin="5"
+                            Style="{StaticResource circleBtn}"
+                            Command="{Binding ColorButtonClick}"
+                            CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}"
+                            Height="20"
+                            Width="20"
+                            Background="Green" />
+                        <Fluent:Button
+                            Margin="5"
+                            Style="{StaticResource circleBtn}"
+                            Command="{Binding ColorButtonClick}"
+                            CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}"
+                            Height="20"
+                            Width="20"
+                            Background="red" />
+                        <Fluent:Button
+                            Margin="5"
+                            Style="{StaticResource circleBtn}"
+                            Command="{Binding ColorButtonClick}"
+                            CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}"
+                            Height="20"
+                            Width="20"
+                            Background="blue" />
+                        <Fluent:Button
+                            Margin="5"
+                            Style="{StaticResource circleBtn}"
+                            Command="{Binding ColorButtonClick}"
+                            CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}"
+                            Height="20"
+                            Width="20"
+                            Background="Orange" />
+                        <Fluent:Button
+                            Margin="5"
+                            Style="{StaticResource circleBtn}"
+                            Command="{Binding ColorButtonClick}"
+                            CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}"
+                            Height="20"
+                            Width="20"
+                            Background="Purple" />
+                        <Fluent:Button
+                            Margin="5"
+                            Style="{StaticResource circleBtn}"
+                            Command="{Binding ColorButtonClick}"
+                            CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}"
+                            Height="20"
+                            Width="20"
+                            Background="Pink" />
                     </WrapPanel>
                 </Fluent:RibbonGroupBox>
-                <Fluent:RibbonGroupBox Header="Tool">
+                <Fluent:RibbonGroupBox
+                    Header="Tool">
 
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
-
         <!--Dawing-->
 
-        <Grid Grid.Row="1" x:Name="MainContent">
+        <Grid
+            Grid.Row="1">
+
+            <!--Store Canvas-->
+            <Canvas
+                x:Name="StoreCanvas" />
 
             <!--Main Canvas-->
-            <ItemsControl Panel.ZIndex="1" ItemsSource="{Binding RenderList}" >
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas  Background="Transparent">
-                        </Canvas>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <Image
+                Width="{Binding ElementName=PreviewCanvas, Path=ActualWidth}"
+                Height="{Binding ElementName=PreviewCanvas, Path=ActualHeight}"
+                x:Name="MainCanvas" />
 
             <!--Preview Canvas-->
-            <!--<ItemsControl Panel.ZIndex="1" ItemsSource="{Binding RenderList}" >
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas  Background="Transparent">
-                        </Canvas>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>-->
-
+            <Canvas
+                x:Name="PreviewCanvas"
+                Panel.ZIndex="2" />
 
             <!--Handle Canvas-->
-            <Canvas Panel.ZIndex="2" Background="Transparent"  MouseUp="Canvas_MouseUp" MouseMove="Canvas_MouseMove" MouseDown="Canvas_MouseDown"/>
+            <Canvas
+                Panel.ZIndex="3"
+                Background="Transparent"
+                MouseUp="Canvas_MouseUp"
+                MouseMove="Canvas_MouseMove"
+                MouseDown="Canvas_MouseDown" />
         </Grid>
-
 
     </Grid>
 </UserControl>

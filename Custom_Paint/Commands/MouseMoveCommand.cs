@@ -18,17 +18,11 @@ namespace Custom_Paint.Commands
 
         public override void Execute(object? parameter)
         {
-            if (parameter != null && _viewModel.IsDrawing)
+            if (parameter != null && _viewModel.IsDrawing && _viewModel.Preview != null)
             {
-                _viewModel.RenderList.Clear();
-                foreach (IShape shape in _viewModel.ShapeList)
-                {
-                    _viewModel.RenderList.Add(shape.Draw());
-                }
                 _viewModel.End = (Point)parameter;
                 _viewModel.Preview.UpdatePoints(_viewModel.End);
-                _viewModel.RenderList.Add(_viewModel.Preview.Draw());
-
+                _viewModel.PreviewRender = _viewModel.Preview.Draw();
             }
         }
     }

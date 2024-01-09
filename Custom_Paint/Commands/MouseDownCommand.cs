@@ -21,18 +21,25 @@ namespace Custom_Paint.Commands
 
         public override void Execute(object? parameter)
         {
-            foreach (var item in _viewModel.ShapeList)
+            if (parameter != null)
             {
-                item.HideAdorner();
-            }
-            if (_viewModel.Preview != null && parameter != null)
-            {
-                _viewModel.IsDrawing = true;
-                _viewModel.Start = (Point)parameter;
-                _viewModel.Preview.points = new List<Point>() { _viewModel.Start, _viewModel.Start };
-                _viewModel.Preview.StrokeThickness = 2;
-                _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
-                _viewModel.Preview.Fill = Brushes.Transparent;
+                if (_viewModel.ChoosenShape != null)
+                {
+                    // Insert previous
+                    if (_viewModel.Preview != null)
+                    {
+                        _viewModel.AcceptReview.Invoke(_viewModel.Preview.Draw());
+                    }
+
+                    // Create new
+                    _viewModel.Preview = _viewModel.Factory.CreateShape(_viewModel.ChoosenShape);
+                    _viewModel.IsDrawing = true;
+                    _viewModel.Start = (Point)parameter;
+                    _viewModel.Preview.points = new List<Point>() { _viewModel.Start, _viewModel.Start };
+                    _viewModel.Preview.StrokeThickness = 2;
+                    _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
+                    _viewModel.Preview.Fill = Brushes.Transparent;
+                }
             }
         }
     }

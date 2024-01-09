@@ -13,8 +13,6 @@ namespace Contract
     public abstract class IShape
     {
         public UIElement? Preview { get; set; }
-
-        public abstract void ShowAdorner();
     
         public bool isSelected = false;
         public List<Point>? points { get; set; }
@@ -31,17 +29,6 @@ namespace Contract
         public abstract UIElement Draw();
 
         public abstract void HideAdorner();
-        //public static void RemoveResize(UIElement shape) {
-        //    AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(shape);
-        //    Adorner[] adorners = adornerLayer.GetAdorners(shape);
-        //    if (adorners != null)
-        //    {
-        //        foreach (Adorner adorner in adorners)
-        //        {
-        //            adornerLayer.Remove(adorner);
-        //        }
-        //    }
-        //}
-
+        public abstract void ShowAdorner();
     }
 }

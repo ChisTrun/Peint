@@ -1,4 +1,5 @@
-﻿using Custom_Paint.ViewModels;
+﻿using Custom_Paint.Helper;
+using Custom_Paint.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,21 @@ namespace Custom_Paint.Views
         public PaintView()
         {
             InitializeComponent();
+            this.Loaded += PaintView_Loaded;
+        }
+
+        private void PaintView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var viewModel = (PaintViewModel)this.DataContext;
+            viewModel.RefreshReview = (ui) =>
+            {
+                this.PreviewCanvas.Children.Clear();
+                this.PreviewCanvas.Children.Add(ui);
+            };
+            viewModel.AcceptReview = (ui) =>
+            {
+                PreviewUpdate.PreviewUpdater(this.PreviewCanvas, this.MainCanvas);
+            };
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)

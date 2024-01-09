@@ -11,11 +11,8 @@ namespace Custom_Paint.ViewModels
 {
     public class PaintViewModel : ViewModelBase
     {
-
-        //private BitmapImage _bitMap;
-        //public BitmapImage BitMap {  get { return _bitMap; } set { _bitMap = value; } }
-
         // Options
+
         private SolidColorBrush _currentColor = Brushes.Black;
         public SolidColorBrush CurrentColor { get { return _currentColor; } set { _currentColor = value; } }
 
@@ -37,16 +34,17 @@ namespace Custom_Paint.ViewModels
             }
         }
 
+        private string? _choosenShape;
+        public string? ChoosenShape { get { return _choosenShape; } set { _choosenShape = value; } }
         private void ShapeButtonClick(object sender, RoutedEventArgs e)
         {
             var control = (Fluent.Button)sender;
-            Preview = Factory.CreateShape((string)control.Tag);
+            ChoosenShape = (string)control.Tag;
         }
-
-        //public UIElement? _selectedElement = null;
 
 
         // Handle
+
         private Point _start;
         public Point Start { get { return _start; } set { _start = value; } }
 
@@ -57,8 +55,7 @@ namespace Custom_Paint.ViewModels
         private bool _isDrawing;
         public bool IsDrawing { get { return _isDrawing; } set { _isDrawing = value; } }
 
-        private IShape? _preview;
-        public IShape? Preview { get { return _preview; } set { _preview = value; } }
+
 
         public ICommand MouseDown { get; }
         public ICommand MouseUp { get; }
@@ -67,25 +64,39 @@ namespace Custom_Paint.ViewModels
 
         //Draw / Preview
 
-        public List<IShape> ShapeList = new List<IShape>();
-        public ObservableCollection<UIElement> RenderList { get; set; } //
+        private IShape? _preview;
+        public IShape? Preview
+        {
+            get { return _preview; }
+            set
+            {
+                _preview = value;
+            }
+        }
 
-        // >>
-
-        public UIElement PreviewRender { get; set; }
+        public UIElement _previewRender;
+        public UIElement PreviewRender
+        {
+            get
+            {
+                return _previewRender;
+            }
+            set
+            {
+                _previewRender = value;
+                RefreshReview.Invoke(_previewRender);
+            }
+        }
 
         public Action<UIElement> RefreshReview;
+        public Action<UIElement> AcceptReview;
 
-        // <<
 
-            
+
+
         public ShapeFactory Factory { get; set; }
-
-        public ICommand ColorButtonClick{ get; }
-
-        public List<Fluent.Button> ListShapeButton {  get; set; }   
-
-        
+        public ICommand ColorButtonClick { get; }
+        public List<Fluent.Button> ListShapeButton { get; set; }
 
         public PaintViewModel()
         {
@@ -93,85 +104,16 @@ namespace Custom_Paint.ViewModels
             this._end = new Point(0, 0);
             this._isDrawing = false;
             this.ColorButtonClick = new ColorButtonClickCommand(this);
-            //Mouse event
+
+            //Handle Canvas
             this.MouseDown = new MouseDownCommand(this);
             this.MouseUp = new MouseUpCommand(this);
             this.MouseMove = new MouseMoveCommand(this);
 
-
-            this.RenderList = new ObservableCollection<UIElement>() {};
-            //options
+            //Options
             this.ListShapeButton = new List<Fluent.Button>();
             this.Factory = new ShapeFactory();
             GetShapeButton();
         }
-
-
-
-
-
-        //private void Canvas_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (_isDrawing)
-        //    {
-        //        RefeshCanvas();
-        //        _end = e.GetPosition(DrawCanvas);
-        //        _preview.UpdatePoints(_end);
-        //        DrawCanvas.Children.Add(_preview.Draw());
-        //    }
-        //}
-
-        //private void line_button(object sender, RoutedEventArgs e)
-        //{
-        //    Preview = new Line2D();
-        //}
-
-        //private void rect_button(object sender, RoutedEventArgs e)
-        //{
-        //    Preview = new Rect2D();
-        //}
-
-        //private void DrawCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (e.Source.ToString() == "System.Windows.Controls.Canvas")
-        //    {
-        //        _selectedElement = null;
-        //        IEnumerable<UIElement> listUielement = DrawCanvas.Children.OfType<UIElement>();
-        //        foreach (var item in listUielement)
-        //        {
-        //            IShape.RemoveResize(item);
-        //        }
-        //        foreach (var item in _lines) item.isSelected = false;
-        //    }
-        //}
-
-        //private void RibbonWindow_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key == Key.Delete)
-        //    {
-        //        List<IShape> removeList = new List<IShape>();
-        //        foreach (var item in _lines)
-        //        {
-        //            if (item.isSelected) removeList.Add(item);
-        //        }
-        //        foreach (var item in removeList)
-        //        {
-        //            _lines.Remove(item);
-        //        }
-        //        RefeshCanvas();
-        //    }
-        //}
-
-        //private void RefeshCanvas()
-        //{
-        //    DrawCanvas.Children.Clear();
-        //    foreach (IShape shape in _lines)
-        //    {
-        //        DrawCanvas.Children.Add(shape.Draw());
-        //    }
-        //}
-
-
-
     }
 }

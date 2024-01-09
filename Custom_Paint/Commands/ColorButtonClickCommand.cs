@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Custom_Paint.Commands
 {
@@ -21,22 +22,11 @@ namespace Custom_Paint.Commands
 
         public override void Execute(object? parameter)
         {
-            if(parameter != null)
+            if (parameter != null && _viewModel.Preview != null)
             {
                 _viewModel.CurrentColor = (SolidColorBrush)parameter;
-                foreach (IShape shape in _viewModel.ShapeList)
-                {
-                    if(shape.isSelected)
-                    {
-                        shape.StrokeColor = _viewModel.CurrentColor;
-                    }
-                }
-                _viewModel.RenderList.Clear();
-                foreach (IShape shape in _viewModel.ShapeList)
-                {
-                    _viewModel.RenderList.Add(shape.Draw());
-                    if(shape.isSelected) shape.ShowAdorner();
-                }
+                _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
+                _viewModel.PreviewRender = _viewModel.Preview.Draw();
             }
         }
     }
