@@ -23,8 +23,7 @@ namespace Custom_Paint.Commands
                 _viewModel.IsDrawing = false;
                 _viewModel.ShapeList.Add(_viewModel.Preview); // Will be deleted 
                 _viewModel.Preview.ShowAdorner();
-                _viewModel.Preview = null;
-                //_viewModel.Preview = new Rect2D();
+                _viewModel.Preview = _viewModel.Preview.Clone();
 
             }
         }
