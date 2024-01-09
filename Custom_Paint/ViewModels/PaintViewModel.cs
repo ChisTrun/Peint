@@ -5,7 +5,8 @@ using System.Windows.Media;
 using System.Windows.Input;
 using Custom_Paint.Commands;
 using Custom_Paint.Services;
-using System.Windows.Media.Imaging;
+using System.Drawing;
+using Point = System.Windows.Point;
 
 namespace Custom_Paint.ViewModels
 {
@@ -16,9 +17,19 @@ namespace Custom_Paint.ViewModels
         //public BitmapImage BitMap {  get { return _bitMap; } set { _bitMap = value; } }
 
         // Options
-        private SolidColorBrush _currentColor = Brushes.Black;
+        public List<Fluent.Button> ListShapeButton { get; set; }
+        public List<Fluent.Button> ListSizeButton { get; set; }
+
+        public List<double> ListStrokeSize { get; set; } = new List<double>() { 1, 3, 5, 8 };
+
+
+
+        private SolidColorBrush _currentColor = System.Windows.Media.Brushes.Black;
         public SolidColorBrush CurrentColor { get { return _currentColor; } set { _currentColor = value; } }
 
+        private double _currentStrokeThickness = 1;
+
+        public double CurrentStrokeThickness { get { return _currentStrokeThickness; } set { _currentStrokeThickness = value; } }
         private void GetShapeButton()
         {
             string folder = AppDomain.CurrentDomain.BaseDirectory + "ShapeLib\\";
@@ -37,13 +48,16 @@ namespace Custom_Paint.ViewModels
             }
         }
 
+
+
         private void ShapeButtonClick(object sender, RoutedEventArgs e)
         {
             var control = (Fluent.Button)sender;
             Preview = Factory.CreateShape((string)control.Tag);
         }
+        public ICommand SizeButtonClick { get; }
 
-        //public UIElement? _selectedElement = null;
+
 
 
         // Handle
@@ -78,14 +92,14 @@ namespace Custom_Paint.ViewModels
 
         // <<
 
-            
+
         public ShapeFactory Factory { get; set; }
 
-        public ICommand ColorButtonClick{ get; }
+        public ICommand ColorButtonClick { get; }
 
-        public List<Fluent.Button> ListShapeButton {  get; set; }   
 
-        
+
+
 
         public PaintViewModel()
         {
@@ -99,79 +113,13 @@ namespace Custom_Paint.ViewModels
             this.MouseMove = new MouseMoveCommand(this);
 
 
-            this.RenderList = new ObservableCollection<UIElement>() {};
+            this.RenderList = new ObservableCollection<UIElement>() { };
             //options
             this.ListShapeButton = new List<Fluent.Button>();
             this.Factory = new ShapeFactory();
+            this.SizeButtonClick = new SizeButtonClickCommand(this);
             GetShapeButton();
         }
-
-
-
-
-
-        //private void Canvas_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (_isDrawing)
-        //    {
-        //        RefeshCanvas();
-        //        _end = e.GetPosition(DrawCanvas);
-        //        _preview.UpdatePoints(_end);
-        //        DrawCanvas.Children.Add(_preview.Draw());
-        //    }
-        //}
-
-        //private void line_button(object sender, RoutedEventArgs e)
-        //{
-        //    Preview = new Line2D();
-        //}
-
-        //private void rect_button(object sender, RoutedEventArgs e)
-        //{
-        //    Preview = new Rect2D();
-        //}
-
-        //private void DrawCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (e.Source.ToString() == "System.Windows.Controls.Canvas")
-        //    {
-        //        _selectedElement = null;
-        //        IEnumerable<UIElement> listUielement = DrawCanvas.Children.OfType<UIElement>();
-        //        foreach (var item in listUielement)
-        //        {
-        //            IShape.RemoveResize(item);
-        //        }
-        //        foreach (var item in _lines) item.isSelected = false;
-        //    }
-        //}
-
-        //private void RibbonWindow_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key == Key.Delete)
-        //    {
-        //        List<IShape> removeList = new List<IShape>();
-        //        foreach (var item in _lines)
-        //        {
-        //            if (item.isSelected) removeList.Add(item);
-        //        }
-        //        foreach (var item in removeList)
-        //        {
-        //            _lines.Remove(item);
-        //        }
-        //        RefeshCanvas();
-        //    }
-        //}
-
-        //private void RefeshCanvas()
-        //{
-        //    DrawCanvas.Children.Clear();
-        //    foreach (IShape shape in _lines)
-        //    {
-        //        DrawCanvas.Children.Add(shape.Draw());
-        //    }
-        //}
-
-
 
     }
 }
