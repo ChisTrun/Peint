@@ -85,13 +85,5 @@ namespace RectShape
                 AdornerLayer.GetAdornerLayer(VisualTreeHelper.GetParent(this.Preview) as UIElement).Add(new RectResize(this.Preview, this));
             }
         }
-
-        public override IShape LoadShape(string dir_name, IReader reader)
-        {
-            var info = this.LoadInfo(dir_name, reader);
-            this.centerX = info.centerX;
-            this.centerY = info.centerY;
-            return this;
-        }
     }
 }

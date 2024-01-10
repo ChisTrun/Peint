@@ -12,20 +12,71 @@ namespace Contract
 {
     public class ShapeInfo
     {
+        public string Name { get; set; }
         public List<Point>? points { get; set; }
         public double StrokeThickness { get; set; }
         public double Angle { get; set; } = 0;
-        public double centerX { get; set; }
-        public double centerY { get; set; }
-        public SolidColorBrush? Fill { get; set; } = null;
         public SolidColorBrush? StrokeColor { get; set; } = null;
 
-        public string SaveText()
+        public List<object> GetInfo()
         {
-            var b = Fill.Color.R; var c= Fill.Color.G; var d = Fill.Color.B; var e = Fill.Color.A;
+            byte r = StrokeColor.Color.R; byte g = StrokeColor.Color.G; byte b = StrokeColor.Color.B; byte a = StrokeColor.Color.A;
+            
+            List<object> info = new List<object>
+            {
+                Name,
+                points.Count - 1
+            };
+
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                info.Add(points[i].X);
+                info.Add(points[i].Y);
+            }
+
+            info.Add(StrokeThickness);
+            info.Add(Angle);
+            info.Add(r);
+            info.Add(g);
+            info.Add(b);
+            info.Add(a);
+
+            return info;
         }
     }
 
+    public class SerializableShapeInfo
+    {
+        public string Name { get; set; }
+        public List<Point>? points { get; set; }
+        public double StrokeThickness { get; set; }
+        public double Angle { get; set; } = 0;
+        public string StrokeColorString { get; set; }
+
+        public ShapeInfo ToShapeInfo()
+        {
+            return new ShapeInfo
+            {
+                Name = this.Name,
+                points = this.points,
+                StrokeThickness = this.StrokeThickness,
+                Angle = this.Angle,
+                StrokeColor = !string.IsNullOrEmpty(this.StrokeColorString) ? new SolidColorBrush((Color)ColorConverter.ConvertFromString(this.StrokeColorString)) : null
+            };
+        }
+
+        public static SerializableShapeInfo FromShapeInfo(ShapeInfo shapeInfo)
+        {
+            return new SerializableShapeInfo
+            {
+                Name = shapeInfo.Name,
+                points = shapeInfo.points,
+                StrokeThickness = shapeInfo.StrokeThickness,
+                Angle = shapeInfo.Angle,
+                StrokeColorString = shapeInfo.StrokeColor?.Color.ToString()
+            };
+        }
+    }
 
     public abstract class IShape
     {
@@ -49,11 +100,5 @@ namespace Contract
 
         public abstract void HideAdorner();
         public abstract void ShowAdorner();
-
-        protected ShapeInfo LoadInfo(string dir_name, IReader reader)
-        {
-            return reader.Read(dir_name);
-        }
-        public abstract IShape LoadShape(string dir_name, IReader reader);
     }
 }

@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Contract
 {
-    public class temp
+    public interface IWriter
     {
-        public static void temp2()
-        {
-
-        }
+        void Write(string dir_folder, List<IShape> Storage);
     }
 }
