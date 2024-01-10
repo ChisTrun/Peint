@@ -14,7 +14,7 @@ namespace LineShape
 
         public override string Icon =>  "⁄";
 
-        public override Contract.Type ObjType => Contract.Type.Shape;
+        public override Contract.ObjType ObjType => Contract.ObjType.Shape;
 
         public override IShape Clone()
         {

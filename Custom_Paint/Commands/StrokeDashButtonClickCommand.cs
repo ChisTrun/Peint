@@ -19,12 +19,11 @@ namespace Custom_Paint.Commands
     
         public override void Execute(object? parameter)
         {
-            if(parameter != null && _viewModel.Preview != null)
+            if(parameter != null && _viewModel.PreviewObject != null)
             {
                 _viewModel.CurrentStrokeDashArray = (DoubleCollection)parameter;
-                _viewModel.Preview.StrokeDashArray = _viewModel.CurrentStrokeDashArray;
-                _viewModel.PreviewRender = _viewModel.Preview.Draw();
-                _viewModel.Preview.ShowAdorner();
+                _viewModel.PreviewObject.StrokeDashArray = _viewModel.CurrentStrokeDashArray;
+                _viewModel.PreviewUpdateWithEdit();
             }
             
         }

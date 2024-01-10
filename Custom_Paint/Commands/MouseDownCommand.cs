@@ -1,4 +1,4 @@
-﻿using Custom_Paint.Contract;
+﻿using Custom_Paint.Contract2;
 using Custom_Paint.Helper;
 using Custom_Paint.ViewModels;
 using System.Windows;

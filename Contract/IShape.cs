@@ -16,7 +16,7 @@ namespace Contract
         public UIElement? Preview { get; set; }
         public double FlipV { get; set; } = 1;
         public double FlipH { get; set; } = 1;
-        public abstract Type ObjType { get;}
+        public abstract ObjType ObjType { get;}
     
         public bool isSelected = false;
         public List<Point>? points { get; set; }

@@ -18,20 +18,18 @@ namespace Custom_Paint.Commands
         }
         public override void Execute(object? parameter)
         {
-            if(parameter != null && _viewModel.Preview != null)
+            if (parameter != null && _viewModel.PreviewObject != null)
             {
                 string option = (string)parameter;
-                if(option == "fv")
+                if (option == "fv")
                 {
-                    _viewModel.Preview.FlipV = _viewModel.Preview.FlipV == -1? 1 : -1;
-                    _viewModel.PreviewRender = _viewModel.Preview.Draw();
-                    _viewModel.Preview.ShowAdorner();
-                } else
-                {
-                    _viewModel.Preview.FlipH = _viewModel.Preview.FlipH == -1 ? 1 : -1;
-                    _viewModel.PreviewRender = _viewModel.Preview.Draw();
-                    _viewModel.Preview.ShowAdorner();
+                    _viewModel.PreviewObject.FlipV = _viewModel.PreviewObject.FlipV == -1 ? 1 : -1;
                 }
+                else
+                {
+                    _viewModel.PreviewObject.FlipH = _viewModel.PreviewObject.FlipH == -1 ? 1 : -1;
+                }
+                _viewModel.PreviewUpdateWithEdit();
             }
         }
     }

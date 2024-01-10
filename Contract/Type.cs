@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contract
+﻿namespace Contract
 {
-    public enum Type
+    public enum ObjType
     {
         Tool,
         Shape

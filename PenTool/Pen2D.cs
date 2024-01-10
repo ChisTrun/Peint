@@ -13,7 +13,7 @@ namespace PenTool
 
         public override string Icon => "🖋️";
 
-        public override Contract.Type ObjType => Contract.Type.Tool;
+        public override Contract.ObjType ObjType => Contract.ObjType.Tool;
 
         public override IShape Clone()
         {

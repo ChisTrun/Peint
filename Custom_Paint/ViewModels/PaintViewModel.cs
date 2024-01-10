@@ -1,5 +1,4 @@
-﻿using Contract;
-using System.Windows;
+﻿using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Input;
@@ -7,6 +6,7 @@ using Custom_Paint.Commands;
 using Custom_Paint.Services;
 using Point = System.Windows.Point;
 using System.Windows.Controls;
+using Contract;
 
 namespace Custom_Paint.ViewModels
 {
@@ -52,10 +52,10 @@ namespace Custom_Paint.ViewModels
                     Tag = abilities.Name,
                 };
                 button.Click += AbilitiesClick;
-                if (abilities.ObjType == Contract.Type.Shape)
+                if (abilities.ObjType == Contract.ObjType.Shape)
                 {
                     ListShapeButton.Add(button);
-                } else if (abilities.ObjType == Contract.Type.Tool)
+                } else if (abilities.ObjType == Contract.ObjType.Tool)
                 {
                     ListToolButton.Add(button);
                 }
@@ -144,7 +144,6 @@ namespace Custom_Paint.ViewModels
             {
                 this.FillMode = !this.FillMode;
             });
-            GetShapeButton();
             this.StrokeDashButtonClick = new StrokeDashButtonClickCommand(this);
             this.FlipButtonClick = new FlipButtonClickCommand(this);    
             GetAppAbilities();

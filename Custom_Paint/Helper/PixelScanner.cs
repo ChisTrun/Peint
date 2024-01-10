@@ -78,7 +78,6 @@ namespace Custom_Paint.Helper
                 queue.Enqueue(curBottom);
             }
 
-            Image a = new Image();
             PixelColor[,] pixels = new PixelColor[Width, Height];
             for (int k = 0; k < hasRead.GetLength(0); k++)
             {

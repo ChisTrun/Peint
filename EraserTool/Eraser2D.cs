@@ -8,7 +8,7 @@ namespace EraserTool
 {
     public class Eraser2D : IShape
     {
-        public override Contract.Type ObjType => Contract.Type.Tool;
+        public override Contract.ObjType ObjType => Contract.ObjType.Tool;
 
         public override string Name => "eraser";
 
