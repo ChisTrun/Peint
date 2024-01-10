@@ -284,6 +284,10 @@
                         Command="{Binding FillCommand}"
                         Header="🧺">
                     </Fluent:ToggleButton>
+                    <Fluent:Button
+                        Command="{Binding InsertImageCommand}"
+                        Header="🖼">
+                    </Fluent:Button>
                 </Fluent:RibbonGroupBox>
 
                 <Fluent:RibbonGroupBox

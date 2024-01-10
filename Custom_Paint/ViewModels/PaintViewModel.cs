@@ -164,7 +164,7 @@ namespace Custom_Paint.ViewModels
             ReadFile = new SimpleCommand(o =>
             {
                 string fileName = "";
-                System.Windows.Forms.OpenFileDialog dlg = new System.Windows.Forms.OpenFileDialog();
+                OpenFileDialog dlg = new OpenFileDialog();
 
                 // Set filter for file extension and default file extension 
                 dlg.DefaultExt = ".png";
@@ -179,7 +179,6 @@ namespace Custom_Paint.ViewModels
                     // Open document 
                     fileName = dlg.FileName;
                 }
-                var path = dlg.FileName;
                 var ext = Path.GetExtension(dlg.FileName);
                 List<ShapeInfo> shapeInfos = new List<ShapeInfo>();
                 if (ext == ".png")
@@ -196,19 +195,19 @@ namespace Custom_Paint.ViewModels
                     {
                         case ".txt":
                             var reader1 = new ReaderText();
-                            shapeInfos = reader1.Read(path);
+                            shapeInfos = reader1.Read(fileName);
                             break;
                         case ".bin":
                             var reader2 = new ReaderBinary();
-                            shapeInfos = reader2.Read(path);
+                            shapeInfos = reader2.Read(fileName);
                             break;
                         case ".xml":
                             var reader3 = new ReaderXML();
-                            shapeInfos = reader3.Read(path);
+                            shapeInfos = reader3.Read(fileName);
                             break;
                         case ".json":
                             var reader4 = new ReaderJSON();
-                            shapeInfos = reader4.Read(path);
+                            shapeInfos = reader4.Read(fileName);
                             break;
                         default:
                             break;
@@ -232,7 +231,6 @@ namespace Custom_Paint.ViewModels
                 using (var fbd = new FolderBrowserDialog())
                 {
                     DialogResult result = fbd.ShowDialog();
-
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
                         path = fbd.SelectedPath;
@@ -265,6 +263,31 @@ namespace Custom_Paint.ViewModels
                 }
             });
             _selectedType = SaveType[0];
+            InsertImageCommand = new SimpleCommand(o =>
+            {
+                string fileName = "";
+                OpenFileDialog dlg = new OpenFileDialog();
+
+                // Set filter for file extension and default file extension 
+                dlg.DefaultExt = ".png";
+                dlg.Filter = "PNG|*.png";
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                var result = dlg.ShowDialog();
+
+                // Get the selected file name and display in a TextBox 
+                if (result == DialogResult.OK)
+                {
+                    // Open document 
+                    fileName = dlg.FileName;
+                }
+                var path = dlg.FileName;
+                var image = PNGHelper.InsertImage(fileName);
+                double scale = 0.5;
+                image.LayoutTransform = new ScaleTransform(scale, scale);
+                this.StoredShapes.Add(new ImageShape(image));
+                this.OnAcceptPreviewAction!.Invoke();
+            });
         }
 
         public ICommand InsertImageCommand { get; }
