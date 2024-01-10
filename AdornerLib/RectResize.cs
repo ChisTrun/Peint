@@ -28,6 +28,23 @@ namespace AdornerLib
         Thumb BotLeft;
         Rectangle thumbRect;
         IShape ishape;
+
+        private void ResetFlip()
+        {
+            ishape.FlipV = 1;
+            ishape.FlipH = 1;
+            ishape.Angle = 0;
+            var ele = (FrameworkElement)AdornedElement;
+            ele.RenderTransform = new TransformGroup()
+            {
+                Children = new TransformCollection()
+                    {
+                        new RotateTransform(ishape.Angle, ishape.centerX, ishape.centerY),
+                        new ScaleTransform(ishape.FlipV, ishape.FlipH, ishape.centerX, ishape.centerY)
+                    }
+            };
+
+        }
         public RectResize(UIElement adornedElement, IShape ishape) : base(adornedElement)
         {
             this.ishape = ishape;
@@ -58,10 +75,12 @@ namespace AdornerLib
 
         private void DragDelta_BotLeft(object sender, DragDeltaEventArgs e)
         {
+            if (ishape.FlipV != 1 || ishape.FlipH != 1) ResetFlip();
+
             var deltaTop = e.VerticalChange;
             var deltaLeft = e.HorizontalChange;
             var ele = (FrameworkElement)AdornedElement;
-        
+
             Point centerPoint = Center.TranslatePoint(new Point(Center.Width / 2, Center.Height / 2), (Canvas)VisualTreeHelper.GetParent(ele));
             double centerX = centerPoint.X;
             double centerY = centerPoint.Y;
@@ -98,6 +117,8 @@ namespace AdornerLib
 
         private void DragDelta_TopRight(object sender, DragDeltaEventArgs e)
         {
+            if (ishape.FlipV != 1 || ishape.FlipH != 1) ResetFlip();
+
             var deltaTop = e.VerticalChange;
             var deltaLeft = e.HorizontalChange;
             var ele = (FrameworkElement)AdornedElement;
@@ -143,6 +164,7 @@ namespace AdornerLib
         {
             if (this.ishape.points != null)
             {
+                if (ishape.FlipV != 1 || ishape.FlipH != 1) ResetFlip();
                 var ele = (FrameworkElement)AdornedElement;
                 Canvas.SetLeft(ele, this.ishape.points[0].X);
                 Canvas.SetTop(ele, this.ishape.points[0].Y);
@@ -182,6 +204,7 @@ namespace AdornerLib
         }
         private void DragDelta_Center(object sender, DragDeltaEventArgs e)
         {
+
             var ele = (FrameworkElement)AdornedElement;
             var deltaTop = e.VerticalChange;
             var deltaLeft = e.HorizontalChange;
@@ -194,14 +217,15 @@ namespace AdornerLib
             var rotatedDeltaLeft = deltaLeft * Math.Cos(angleInRadians) - deltaTop * Math.Sin(angleInRadians);
             var rotatedDeltaTop = deltaLeft * Math.Sin(angleInRadians) + deltaTop * Math.Cos(angleInRadians);
 
-            Canvas.SetTop(ele, rotatedDeltaTop + Canvas.GetTop(ele));
-            Canvas.SetLeft(ele, rotatedDeltaLeft + Canvas.GetLeft(ele));
+            Canvas.SetTop(ele, rotatedDeltaTop * ishape.FlipH + Canvas.GetTop(ele));
+            Canvas.SetLeft(ele, rotatedDeltaLeft * ishape.FlipV + Canvas.GetLeft(ele));
             UpdatePointIshape(new Point() { X = Canvas.GetLeft(ele), Y = Canvas.GetTop(ele) }, new Point() { X = Canvas.GetLeft(ele) + ele.Width, Y = Canvas.GetTop(ele) + ele.Height });
         }
 
 
         private void DragDelta_BottomRight(object sender, DragDeltaEventArgs e)
         {
+            if (ishape.FlipV != 1 || ishape.FlipH != 1) ResetFlip();
             var deltaTop = e.VerticalChange;
             var deltaLeft = e.HorizontalChange;
             var ele = (FrameworkElement)AdornedElement;
@@ -221,6 +245,7 @@ namespace AdornerLib
 
         private void DragDelta_TopLeft(object sender, DragDeltaEventArgs e)
         {
+            if (ishape.FlipV != 1 || ishape.FlipH != 1) ResetFlip();
             var ele = (FrameworkElement)AdornedElement;
             var deltaTop = e.VerticalChange;
             var deltaLeft = e.HorizontalChange;

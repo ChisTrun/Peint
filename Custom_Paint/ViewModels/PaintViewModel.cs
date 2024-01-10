@@ -76,6 +76,8 @@ namespace Custom_Paint.ViewModels
 
         public ICommand StrokeDashButtonClick { get; }
 
+        public ICommand FlipButtonClick { get; }
+
         // Handle
 
         private Point _start;
@@ -155,6 +157,7 @@ namespace Custom_Paint.ViewModels
             this.Factory = new ShapeFactory();
             this.SizeButtonClick = new SizeButtonClickCommand(this);
             this.StrokeDashButtonClick = new StrokeDashButtonClickCommand(this);
+            this.FlipButtonClick = new FlipButtonClickCommand(this);    
             GetAppAbilities();
         }
 

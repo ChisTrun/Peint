@@ -42,7 +42,14 @@ namespace EllipseShape
                 Stroke = this.StrokeColor,
                 StrokeThickness = this.StrokeThickness,
                 Fill = this.Fill,
-                RenderTransform = new RotateTransform(this.Angle, this.centerX, this.centerY),
+                RenderTransform = new TransformGroup()
+                {
+                    Children = new TransformCollection()
+                    {
+                        new RotateTransform(this.Angle, this.centerX, this.centerY),
+                        new ScaleTransform(this.FlipV, this.FlipH, this.centerX, this.centerY)
+                    }
+                },
                 StrokeDashArray = this.StrokeDashArray,
             };
             Canvas.SetTop(ellipse, points[0].Y);

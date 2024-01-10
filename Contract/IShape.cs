@@ -14,7 +14,8 @@ namespace Contract
     public abstract class IShape
     {
         public UIElement? Preview { get; set; }
-
+        public double FlipV { get; set; } = 1;
+        public double FlipH { get; set; } = 1;
         public abstract Type ObjType { get;}
     
         public bool isSelected = false;

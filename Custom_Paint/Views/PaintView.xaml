@@ -140,6 +140,10 @@
                     </Fluent:SplitButton>
                 </Fluent:RibbonGroupBox>
 
+                <Fluent:RibbonGroupBox Header="Flip">
+                    <Fluent:Button Command="{Binding FlipButtonClick}" Tag="fv" Header="V" CommandParameter="{Binding Tag,RelativeSource={RelativeSource Self}}"/>
+                    <Fluent:Button Command="{Binding FlipButtonClick}" Tag="fh" Header="H" CommandParameter="{Binding Tag,RelativeSource={RelativeSource Self}}"/>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 

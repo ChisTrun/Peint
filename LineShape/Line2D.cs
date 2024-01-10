@@ -23,20 +23,36 @@ namespace LineShape
 
         public override UIElement Draw()
         {
+            double minX = points[0].X < points[1].X? points[0].X : points[1].X;
+            double minY = points[0].Y < points[1].Y? points[0].Y : points[1].Y;
+
+            this.centerY = minY + Math.Abs(points[0].Y - points[1].Y)/2;
+            this.centerX = minX + Math.Abs(points[0].X - points[1].X)/2;
+
+
+
             Line line = new Line()
             {
                 X1 = points[0].X,
                 Y1 = points[0].Y,
                 X2 = points[1].X,
                 Y2 = points[1].Y,
-                Stroke = Brushes.Black,
+                Stroke = this.StrokeColor,
                 StrokeThickness = this.StrokeThickness,
-                StrokeDashArray = this.StrokeDashArray, 
+                StrokeDashArray = this.StrokeDashArray,
+                RenderTransform = new TransformGroup()
+                {
+                    Children = new TransformCollection()
+                    {
+                        new ScaleTransform(this.FlipV, this.FlipH, this.centerX, this.centerY)
+                    }
+                },
             };
             this.Preview = line;    
             return this.Preview;
         }
 
+      
         public override void HideAdorner()
         {
             if (this.Preview != null)
