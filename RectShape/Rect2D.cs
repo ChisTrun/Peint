@@ -21,6 +21,8 @@ namespace RectShape
 
         public override string Icon => "▬";
 
+        public override Contract.Type ObjType => Contract.Type.Shape;
+
         public override IShape Clone()
         {
             return new Rect2D();
@@ -33,11 +35,11 @@ namespace RectShape
             var _width = points[1].X - points[0].X;
             var _height = points[1].Y - points[0].Y;
             if (_width < 0)
-                deltaX = _width;
+                _width = 0;
             if (_height < 0)
-                deltaY = _height;
-            this.centerX = _width / 2;
-            this.centerY = _height / 2;
+                _height = 0;
+            this.centerX = Math.Abs(_width) / 2;
+            this.centerY = Math.Abs(_height) / 2;
 
             Rectangle rect = new Rectangle()
             {
@@ -46,10 +48,12 @@ namespace RectShape
                 Stroke = this.StrokeColor,
                 StrokeThickness = this.StrokeThickness,
                 Fill = this.Fill,
-                RenderTransform = new RotateTransform(this.Angle, this.centerX, this.centerY)
+                RenderTransform = new RotateTransform(this.Angle, this.centerX, this.centerY),
+                StrokeDashArray = this.StrokeDashArray
             };
-            Canvas.SetTop(rect, points[0].Y + deltaY);
-            Canvas.SetLeft(rect, points[0].X + deltaX);
+            Canvas.SetTop(rect, points[0].Y);
+            Canvas.SetLeft(rect, points[0].X);
+
             this.Preview = rect;
             return Preview;
         }
@@ -75,7 +79,6 @@ namespace RectShape
                 }
                 this.isSelected = false;
             }
-
         }
         public override void ShowAdorner()
         {

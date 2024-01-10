@@ -1,37 +1,37 @@
 ﻿
 using Contract;
 using System.Windows;
-using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace PenTool
+namespace EraserTool
 {
-    public class Pen2D : IShape
+    public class Eraser2D : IShape
     {
-        public override string Name => "pen";
-
-        public override string Icon => "🖋️";
-
         public override Contract.Type ObjType => Contract.Type.Tool;
+
+        public override string Name => "eraser";
+
+        public override string Icon => "⌫";
 
         public override IShape Clone()
         {
-            return new Pen2D();
+            return new Eraser2D();
         }
 
         public override UIElement Draw()
         {
             GeometryCollection Children = new GeometryCollection();
-            for (int i = 0; i < points.Count -1; i++)
+            for (int i = 0; i < points.Count - 1; i++)
             {
-                Children.Add(new LineGeometry(points[i], points[i+1]));
+                Children.Add(new LineGeometry(points[i], points[i + 1]));
             }
-            GeometryGroup Data = new GeometryGroup() { Children = Children};
-            Path path = new Path() {
+            GeometryGroup Data = new GeometryGroup() { Children = Children };
+            Path path = new Path()
+            {
                 Data = Data,
                 StrokeThickness = this.StrokeThickness,
-                Stroke = this.StrokeColor
+                Stroke = Brushes.White,
             };
             this.Preview = path;
             return this.Preview;
@@ -47,7 +47,7 @@ namespace PenTool
 
         public override void UpdatePoints(Point newPoint)
         {
-            if(points != null) points.Add(newPoint);
+            if (points != null) points.Add(newPoint);
         }
     }
 

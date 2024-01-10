@@ -14,11 +14,21 @@ namespace Custom_Paint.ViewModels
     {
         // Options
         public List<Fluent.Button> ListShapeButton { get; set; }
+        public List<Fluent.Button> ListToolButton { get; set; }
         public List<Fluent.Button> ListSizeButton { get; set; }
 
         public List<double> ListStrokeSize { get; set; } = new List<double>() { 1, 3, 5, 8 };
 
+        private DoubleCollection _currentStrokeDashArray = new DoubleCollection(new double[] { });
 
+        public DoubleCollection CurrentStrokeDashArray { get { return _currentStrokeDashArray; } set { _currentStrokeDashArray = value; } }
+        public List<DoubleCollection> ListStrokeDash { get; set; } = new List<DoubleCollection>
+        {
+            new DoubleCollection(new double[] {}),
+            new DoubleCollection(new double[]{1}),
+            new DoubleCollection(new double[]{ 2,5}),
+            new DoubleCollection(new double[]{ 1,3,4})
+        };
 
         private SolidColorBrush _currentColor = System.Windows.Media.Brushes.Black;
         public SolidColorBrush CurrentColor { get { return _currentColor; } set { _currentColor = value; } }
@@ -26,7 +36,7 @@ namespace Custom_Paint.ViewModels
         private double _currentStrokeThickness = 1;
 
         public double CurrentStrokeThickness { get { return _currentStrokeThickness; } set { _currentStrokeThickness = value; } }
-        private void GetShapeButton()
+        private void GetAppAbilities()
         {
             string folder = AppDomain.CurrentDomain.BaseDirectory + "ShapeLib\\";
             var shapeAbilities = DllReader<IShape>.GetAbilities(folder);
@@ -39,13 +49,19 @@ namespace Custom_Paint.ViewModels
                     Header = abilities.Icon,
                     Tag = abilities.Name,
                 };
-                button.Click += ShapeButtonClick;
-                ListShapeButton.Add(button);
+                button.Click += AbilitiesClick;
+                if (abilities.ObjType == Contract.Type.Shape)
+                {
+                    ListShapeButton.Add(button);
+                } else if (abilities.ObjType == Contract.Type.Tool)
+                {
+                    ListToolButton.Add(button);
+                }
             }
         }
 
         public string ChoosenShape { get; set; }
-        private void ShapeButtonClick(object sender, RoutedEventArgs e)
+        private void AbilitiesClick(object sender, RoutedEventArgs e)
         {
             var control = (Fluent.Button)sender;
             ChoosenShape = (string)control.Tag;
@@ -58,6 +74,7 @@ namespace Custom_Paint.ViewModels
         }
         public ICommand SizeButtonClick { get; }
 
+        public ICommand StrokeDashButtonClick { get; }
 
         // Handle
 
@@ -112,7 +129,7 @@ namespace Custom_Paint.ViewModels
         {
             return GetStorage.Invoke();
         }
-        
+
         //public List<UIElement> Storage { get; set; }
 
 
@@ -134,9 +151,11 @@ namespace Custom_Paint.ViewModels
 
             //options
             this.ListShapeButton = new List<Fluent.Button>();
+            this.ListToolButton = new List<Fluent.Button>();
             this.Factory = new ShapeFactory();
             this.SizeButtonClick = new SizeButtonClickCommand(this);
-            GetShapeButton();
+            this.StrokeDashButtonClick = new StrokeDashButtonClickCommand(this);
+            GetAppAbilities();
         }
 
     }

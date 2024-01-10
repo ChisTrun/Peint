@@ -60,12 +60,22 @@
 
             </Fluent:Ribbon.Menu>
             <Fluent:RibbonTabItem Header="ToolBar ">
-                <Fluent:RibbonGroupBox Header="Tool">
+                <Fluent:RibbonGroupBox Header="Shape">
                     <ItemsControl ItemsSource="{Binding ListShapeButton }">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel
                                     Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Tool">
+                    <ItemsControl ItemsSource="{Binding ListToolButton }">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel
+                    Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
@@ -81,14 +91,14 @@
                         <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Pink"/>
                         <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Black"/>
                         <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="White"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Black"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Black"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Black"/>
-                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Black"/>
+                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Aqua"/>
+                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Yellow"/>
+                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Gray"/>
+                        <Fluent:Button Margin="5" Style="{StaticResource circleBtn}" Command="{Binding ColorButtonClick}" CommandParameter="{Binding Background, RelativeSource={RelativeSource Self}}" Height="20" Width="20" Background="Bisque"/>
                     </WrapPanel>
                 </Fluent:RibbonGroupBox>
 
-                <Fluent:RibbonGroupBox x:Name="root"  Header="Stroke">
+                <Fluent:RibbonGroupBox x:Name="root">
                     <Fluent:SplitButton ItemsSource="{Binding ListStrokeSize}" Header="Size">
                         <Fluent:SplitButton.ItemTemplate>
                             <DataTemplate >
@@ -110,6 +120,26 @@
                         </Fluent:SplitButton.ItemTemplate>
                     </Fluent:SplitButton>
                 </Fluent:RibbonGroupBox>
+
+
+                <Fluent:RibbonGroupBox>
+                    <Fluent:SplitButton ItemsSource="{Binding ListStrokeDash}" Header="Outline">
+                        <Fluent:SplitButton.ItemTemplate>
+                            <DataTemplate >
+                                <Button Content="{Binding}" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Fluent:RibbonGroupBox},Path=DataContext.StrokeDashButtonClick}" CommandParameter="{Binding}">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Grid Height="30" Width="50" Margin="0" Background="Transparent" VerticalAlignment="Center">
+                                                <Line VerticalAlignment="Center" Width="50"  StrokeDashArray="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Button}, Path=Content}"   X1="0" Y1="0" X2="50" Y2="0" Stroke="Black" StrokeThickness="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Button}, Path=Content}"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </Fluent:SplitButton.ItemTemplate>
+                    </Fluent:SplitButton>
+                </Fluent:RibbonGroupBox>
+
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 

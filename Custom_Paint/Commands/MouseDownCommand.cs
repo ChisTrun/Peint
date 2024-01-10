@@ -33,13 +33,13 @@ namespace Custom_Paint.Commands
                         _viewModel.Preview = null;
                     }
                     // Create new
-                    else
+                    
                     {
                         _viewModel.Preview = _viewModel.Factory.CreateShape(_viewModel.ChoosenShape);
                         _viewModel.IsDrawing = true;
                         _viewModel.Start = (Point)parameter;
                         _viewModel.Preview.points = new List<Point>() { _viewModel.Start, _viewModel.Start };
-                        _viewModel.Preview.StrokeThickness = 2;
+                        _viewModel.Preview.StrokeThickness = _viewModel.CurrentStrokeThickness;
                         _viewModel.Preview.StrokeColor = _viewModel.CurrentColor;
                         _viewModel.Preview.Fill = Brushes.Transparent;
                     }

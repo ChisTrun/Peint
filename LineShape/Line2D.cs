@@ -1,6 +1,8 @@
 ﻿
+using AdornerLib;
 using Contract;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -11,6 +13,8 @@ namespace LineShape
         public override string Name => "Line";
 
         public override string Icon =>  "⁄";
+
+        public override Contract.Type ObjType => Contract.Type.Shape;
 
         public override IShape Clone()
         {
@@ -27,18 +31,36 @@ namespace LineShape
                 Y2 = points[1].Y,
                 Stroke = Brushes.Black,
                 StrokeThickness = this.StrokeThickness,
+                StrokeDashArray = this.StrokeDashArray, 
             };
-            return line;
+            this.Preview = line;    
+            return this.Preview;
         }
 
         public override void HideAdorner()
         {
-            throw new NotImplementedException();
+            if (this.Preview != null)
+            {
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this.Preview);
+                Adorner[] adorners = adornerLayer.GetAdorners(this.Preview);
+                if (adorners != null)
+                {
+                    foreach (Adorner adorner in adorners)
+                    {
+                        adornerLayer.Remove(adorner);
+                    }
+                }
+                this.isSelected = false;
+            }
         }
 
         public override void ShowAdorner()
         {
-            throw new NotImplementedException();
+            if (this.Preview != null)
+            {
+                this.isSelected = true;
+                AdornerLayer.GetAdornerLayer(VisualTreeHelper.GetParent(this.Preview) as UIElement).Add(new LineResize(this.Preview, this));
+            }
         }
 
         public override void UpdatePoints(Point newPoint)
