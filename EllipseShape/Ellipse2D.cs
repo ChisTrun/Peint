@@ -16,6 +16,8 @@ namespace EllipseShape
 
         public override string Icon => "○";
 
+        public override Contract.Type ObjType => Contract.Type.Shape;
+
         public override IShape Clone()
         {
             return new Ellipse2D();
@@ -27,8 +29,8 @@ namespace EllipseShape
             var deltaY = 0.0;
             var _width = points[1].X - points[0].X;
             var _height = points[1].Y - points[0].Y;
-            if (_width < 0) deltaX = _width;
-            if (_height < 0) deltaY = _height;
+            if (_width < 0) _width = 0;
+            if (_height < 0) _height = 0;
 
             this.centerX = _width / 2;
             this.centerY = _height / 2;
@@ -40,15 +42,21 @@ namespace EllipseShape
                 Stroke = this.StrokeColor,
                 StrokeThickness = this.StrokeThickness,
                 Fill = this.Fill,
-                RenderTransform = new RotateTransform(this.Angle, this.centerX, this.centerY)
+                RenderTransform = new TransformGroup()
+                {
+                    Children = new TransformCollection()
+                    {
+                        new RotateTransform(this.Angle, this.centerX, this.centerY),
+                        new ScaleTransform(this.FlipV, this.FlipH, this.centerX, this.centerY)
+                    }
+                },
+                StrokeDashArray = this.StrokeDashArray,
             };
-            Canvas.SetTop(ellipse, points[0].Y + deltaY);
-            Canvas.SetLeft(ellipse, points[0].X + deltaX);
+            Canvas.SetTop(ellipse, points[0].Y);
+            Canvas.SetLeft(ellipse, points[0].X );
             this.Preview = ellipse;
             return this.Preview;
         }
-
-    
 
         public override void UpdatePoints(Point newPoint)
         {

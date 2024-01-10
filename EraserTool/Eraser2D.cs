@@ -1,23 +1,22 @@
 ﻿
 using Contract;
 using System.Windows;
-using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace PenTool
+namespace EraserTool
 {
-    public class Pen2D : IShape
+    public class Eraser2D : IShape
     {
-        public override string Name => "pen";
-
-        public override string Icon => "🖋️";
-
         public override Contract.Type ObjType => Contract.Type.Tool;
+
+        public override string Name => "eraser";
+
+        public override string Icon => "⌫";
 
         public override IShape Clone()
         {
-            return new Pen2D();
+            return new Eraser2D();
         }
 
         public override UIElement Draw()
@@ -32,7 +31,7 @@ namespace PenTool
             {
                 Data = Data,
                 StrokeThickness = this.StrokeThickness,
-                Stroke = this.StrokeColor
+                Stroke = Brushes.White,
             };
             this.Preview = path;
             return this.Preview;
@@ -48,8 +47,7 @@ namespace PenTool
 
         public override void UpdatePoints(Point newPoint)
         {
-            if (points != null)
-                points.Add(newPoint);
+            if (points != null) points.Add(newPoint);
         }
     }
 
