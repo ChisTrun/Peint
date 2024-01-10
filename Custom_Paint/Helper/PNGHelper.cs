@@ -16,13 +16,11 @@ namespace Custom_Paint.Helper
 {
     public class PNGHelper
     {
-        // fileName là đường dẫn tới file ảnh, có thể lấy bằng OpenFileDialog
         public static Image InsertImage(string fileName)
         {
             try
             {
                 BitmapImage bitmap = new BitmapImage(new Uri(fileName, UriKind.Absolute));
-
                 Image newImage = new Image
                 {
                     Width = bitmap.Width,
@@ -39,19 +37,14 @@ namespace Custom_Paint.Helper
             }
         }
 
-        // filePath là đường dẫn tới folder muốn lưu, có thể lấy bằng FolderBrowserDialog
-        // có thể truyền vô fileName
         public static bool SavePng(string filePath, Image DrawImage)
         {
             try
             {
                 BitmapSource bitmapSource = (BitmapSource)DrawImage.Source;
-
                 PngBitmapEncoder pngEncoder = new PngBitmapEncoder();
                 pngEncoder.Frames.Add(BitmapFrame.Create(bitmapSource));
-
-                // có thể truyền vô fileName thế vào đây
-                string fileName = System.IO.Path.Combine(filePath, "imgabc.png");
+                string fileName = System.IO.Path.Combine(filePath, "Exported.png");
                 using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
                 {
                     pngEncoder.Save(fileStream);

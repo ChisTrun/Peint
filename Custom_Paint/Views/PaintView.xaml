@@ -54,12 +54,11 @@
                         <Fluent:Button
                             Header="New" />
                         <Fluent:Button
+                            Command="{Binding ReadFile}"
                             Header="Open" />
-                        <Fluent:Button
-                            Header="Save" />
                     </Fluent:BackstageTabControl>
-                </Fluent:Backstage>
 
+                </Fluent:Backstage>
             </Fluent:Ribbon.Menu>
             <Fluent:RibbonTabItem
                 Header="ToolBar ">
@@ -301,6 +300,20 @@
                         CommandParameter="{Binding Tag,RelativeSource={RelativeSource Self}}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
+
+            <Fluent:RibbonTabItem
+                Header="Save">
+                <Fluent:RibbonGroupBox>
+                    <ComboBox
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding SaveType}"
+                        SelectedItem="{Binding SelectedType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Fluent:Button
+                        Content="Save"
+                        Command="{Binding WriteFile}" />
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+
         </Fluent:Ribbon>
 
         <!--Dawing-->

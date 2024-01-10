@@ -3,6 +3,7 @@
     public enum ObjType
     {
         Tool,
-        Shape
+        Shape,
+        Outside,
     }
 }

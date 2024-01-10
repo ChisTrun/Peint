@@ -21,8 +21,11 @@ namespace Contract
 
         public List<object> GetInfo()
         {
-            byte r = StrokeColor.Color.R; byte g = StrokeColor.Color.G; byte b = StrokeColor.Color.B; byte a = StrokeColor.Color.A;
-            
+            byte r = StrokeColor.Color.R;
+            byte g = StrokeColor.Color.G;
+            byte b = StrokeColor.Color.B;
+            byte a = StrokeColor.Color.A;
+
             List<object> info = new List<object>
             {
                 Name,
@@ -84,8 +87,8 @@ namespace Contract
         public UIElement? Preview { get; set; }
         public double FlipV { get; set; } = 1;
         public double FlipH { get; set; } = 1;
-        public abstract ObjType ObjType { get;}
-    
+        public abstract ObjType ObjType { get; }
+
         public bool isSelected = false;
         public List<Point>? points { get; set; }
         public double StrokeThickness { get; set; }
@@ -102,5 +105,13 @@ namespace Contract
         public DoubleCollection? StrokeDashArray { get; set; } = new DoubleCollection(new double[] { });
         public abstract void HideAdorner();
         public abstract void ShowAdorner();
+
+        public void LoadInfo(ShapeInfo si)
+        {
+            this.points = si.points;
+            this.StrokeThickness = si.StrokeThickness;
+            this.Angle = si.Angle;
+            this.StrokeColor = si.StrokeColor;
+        }
     }
 }

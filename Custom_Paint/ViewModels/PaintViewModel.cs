@@ -7,6 +7,11 @@ using Custom_Paint.Services;
 using Point = System.Windows.Point;
 using System.Windows.Controls;
 using Contract;
+using Custom_Paint.Helper;
+using System.Windows.Forms;
+using System.IO;
+using System.ComponentModel;
+using Custom_Paint.Contract;
 
 namespace Custom_Paint.ViewModels
 {
@@ -52,10 +57,11 @@ namespace Custom_Paint.ViewModels
                     Tag = abilities.Name,
                 };
                 button.Click += AbilitiesClick;
-                if (abilities.ObjType == Contract.ObjType.Shape)
+                if (abilities.ObjType == ObjType.Shape)
                 {
                     ListShapeButton.Add(button);
-                } else if (abilities.ObjType == Contract.ObjType.Tool)
+                }
+                else if (abilities.ObjType == ObjType.Tool)
                 {
                     ListToolButton.Add(button);
                 }
@@ -121,6 +127,13 @@ namespace Custom_Paint.ViewModels
         public ObservableCollection<IShape> StoredShapes { get; } = new ObservableCollection<IShape>();
 
         // ======================================
+        // Storage
+        // ======================================
+
+        public ICommand ReadFile { get; }
+        public ICommand WriteFile { get; }
+
+        // ======================================
         // ======================================
         // ======================================
 
@@ -145,9 +158,127 @@ namespace Custom_Paint.ViewModels
                 this.FillMode = !this.FillMode;
             });
             this.StrokeDashButtonClick = new StrokeDashButtonClickCommand(this);
-            this.FlipButtonClick = new FlipButtonClickCommand(this);    
+            this.FlipButtonClick = new FlipButtonClickCommand(this);
             GetAppAbilities();
+
+            ReadFile = new SimpleCommand(o =>
+            {
+                string fileName = "";
+                System.Windows.Forms.OpenFileDialog dlg = new System.Windows.Forms.OpenFileDialog();
+
+                // Set filter for file extension and default file extension 
+                dlg.DefaultExt = ".png";
+                dlg.Filter = "Binary|*.bin|Text|*.txt|PNG|*.png|XML|*.xml|JSON|*.json";
+
+                // Display OpenFileDialog by calling ShowDialog method 
+                var result = dlg.ShowDialog();
+
+                // Get the selected file name and display in a TextBox 
+                if (result == DialogResult.OK)
+                {
+                    // Open document 
+                    fileName = dlg.FileName;
+                }
+                var path = dlg.FileName;
+                var ext = Path.GetExtension(dlg.FileName);
+                List<ShapeInfo> shapeInfos = new List<ShapeInfo>();
+                if (ext == ".png")
+                {
+                    var image = PNGHelper.InsertImage(fileName);
+                    double scale = 0.5;
+                    image.LayoutTransform = new ScaleTransform(scale, scale);
+                    this.StoredShapes.Clear();
+                    this.StoredShapes.Add(new ImageShape(image));
+                }
+                else
+                {
+                    switch (ext)
+                    {
+                        case ".txt":
+                            var reader1 = new ReaderText();
+                            shapeInfos = reader1.Read(path);
+                            break;
+                        case ".bin":
+                            var reader2 = new ReaderBinary();
+                            shapeInfos = reader2.Read(path);
+                            break;
+                        case ".xml":
+                            var reader3 = new ReaderXML();
+                            shapeInfos = reader3.Read(path);
+                            break;
+                        case ".json":
+                            var reader4 = new ReaderJSON();
+                            shapeInfos = reader4.Read(path);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    this.StoredShapes.Clear();
+                    shapeInfos.ForEach((s) =>
+                    {
+                        var name = s.Name;
+                        var sh = Factory.prototypes[name].Clone();
+                        sh.LoadInfo(s);
+                        this.StoredShapes.Add(sh);
+                    });
+                }
+                this.OnAcceptPreviewAction!.Invoke();
+            });
+
+            WriteFile = new SimpleCommand(o =>
+            {
+                string path = string.Empty;
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        path = fbd.SelectedPath;
+                    }
+                }
+                switch (_selectedType)
+                {
+                    case ".txt":
+                        var writer1 = new WriterText();
+                        writer1.Write(path, StoredShapes.ToList());
+                        break;
+                    case ".bin":
+                        var writer2 = new WriterBinary();
+                        writer2.Write(path, StoredShapes.ToList());
+                        break;
+                    case ".xml":
+                        var writer3 = new WriterXML();
+                        writer3.Write(path, StoredShapes.ToList());
+                        break;
+                    case ".json":
+                        var writer4 = new WriterJSON();
+                        writer4.Write(path, StoredShapes.ToList());
+                        break;
+                    case ".png":
+                        var image = this.GetMainCanvasFunc!.Invoke();
+                        PNGHelper.SavePng(path, image);
+                        break;
+                    default:
+                        break;
+                }
+            });
+            _selectedType = SaveType[0];
         }
+
+        public ICommand InsertImageCommand { get; }
+
+        public BindingList<string> SaveType { get; } = new BindingList<string>()
+        {
+            ".txt",
+            ".bin",
+            ".xml",
+            ".json",
+            ".png",
+        };
+        private string _selectedType;
+        public string SelectedType { get { return _selectedType; } set { _selectedType = value; } }
 
         public Action OnAcceptPreviewAction;
         public Action<UIElement?> OnRefreshPreviewAction;

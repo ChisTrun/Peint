@@ -9,11 +9,11 @@ namespace Custom_Paint.Helper
 {
     public class FileReader
     {
-        public IReader reader { get; set; }
+        public IReader Reader { get; set; }
 
         public FileReader(IReader reader)
         {
-            this.reader = reader;
+            this.Reader = reader;
         }
     }
 }

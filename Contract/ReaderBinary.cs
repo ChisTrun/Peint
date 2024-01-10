@@ -2,14 +2,12 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 
 namespace Custom_Paint.Services
 {
     public class ReaderBinary : IReader
     {
-        List<ShapeInfo> IReader.Read(string dir_name)
+        public List<ShapeInfo> Read(string dir_name)
         {
             List<ShapeInfo> elements = new List<ShapeInfo>();
 
