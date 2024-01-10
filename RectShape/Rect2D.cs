@@ -95,7 +95,5 @@ namespace RectShape
                 AdornerLayer.GetAdornerLayer(VisualTreeHelper.GetParent(this.Preview) as UIElement).Add(new RectResize(this.Preview, this));
             }
         }
-
     }
-
 }
