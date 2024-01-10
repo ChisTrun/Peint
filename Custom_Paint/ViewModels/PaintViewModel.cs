@@ -5,10 +5,8 @@ using System.Windows.Media;
 using System.Windows.Input;
 using Custom_Paint.Commands;
 using Custom_Paint.Services;
-using System.Drawing;
 using Point = System.Windows.Point;
-using System.Security.Permissions;
-using System.Windows.Shapes;
+using System.Windows.Controls;
 
 namespace Custom_Paint.ViewModels
 {
@@ -27,8 +25,8 @@ namespace Custom_Paint.ViewModels
         public SolidColorBrush CurrentColor { get { return _currentColor; } set { _currentColor = value; } }
 
         private double _currentStrokeThickness = 1;
-
         public double CurrentStrokeThickness { get { return _currentStrokeThickness; } set { _currentStrokeThickness = value; } }
+
         private void GetShapeButton()
         {
             string folder = AppDomain.CurrentDomain.BaseDirectory + "ShapeLib\\";
@@ -57,7 +55,11 @@ namespace Custom_Paint.ViewModels
                 this.AcceptPreview();
             }
         }
+
         public ICommand SizeButtonClick { get; }
+
+        public bool FillMode { get; set; }
+        public Func<Image> GetMainCanvasFunc;
 
         // ======================================
         // Handle
@@ -117,6 +119,10 @@ namespace Custom_Paint.ViewModels
             this.ListShapeButton = new List<Fluent.Button>();
             this.Factory = new ShapeFactory();
             this.SizeButtonClick = new SizeButtonClickCommand(this);
+            this.FillCommand = new SimpleCommand(o =>
+            {
+                this.FillMode = !this.FillMode;
+            });
             GetShapeButton();
         }
 
@@ -125,6 +131,7 @@ namespace Custom_Paint.ViewModels
 
         public ShapeFactory Factory { get; set; }
         public ICommand ColorButtonClick { get; }
+        public ICommand FillCommand { get; }
 
         public void IgnorePreview()
         {

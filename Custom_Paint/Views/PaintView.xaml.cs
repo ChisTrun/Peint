@@ -1,19 +1,9 @@
 ﻿using Custom_Paint.Helper;
 using Custom_Paint.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Custom_Paint.Views
 {
@@ -45,10 +35,17 @@ namespace Custom_Paint.Views
                 this.StoreCanvas.Children.Clear();
                 foreach (var shape in viewModel.StoredShapes)
                 {
-                    this.StoreCanvas.Children.Add(shape.Draw());
+                    var ui = shape.Draw();
+                    this.StoreCanvas.Children.Add(ui);
+                    ui.UpdateLayout();
                 }
-                PreviewUpdate.PreviewUpdater(this.StoreCanvas, this.MainCanvas);
+                this.StoreCanvas.UpdateLayout();
+                PreviewUpdater.Update(this.StoreCanvas, this.MainCanvas);
             };
+            viewModel.GetMainCanvasFunc = () => this.MainCanvas;
+
+            // First update
+            PreviewUpdater.Update(this.StoreCanvas, this.MainCanvas);
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -86,5 +83,23 @@ namespace Custom_Paint.Views
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //Polygon polygon = new Polygon();
+            //polygon.Points.Clear();
+            //polygon.StrokeThickness = 0;
+            //polygon.Stroke = Brushes.Transparent;
+            //polygon.Fill = Brushes.Red;
+            //polygon.Points = new PointCollection()
+            //{
+            //    new Point(0, 50),
+            //    new Point(50, 50),
+            //    new Point(50, 0),
+            //    new Point(0, 0),
+            //    new Point(20, 20),
+            //    new Point(10, 10),
+            //};
+            //this.PreviewCanvas.Children.Add(polygon);
+        }
     }
 }

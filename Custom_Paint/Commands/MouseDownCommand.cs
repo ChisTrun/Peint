@@ -1,6 +1,9 @@
-﻿using Custom_Paint.ViewModels;
+﻿using Custom_Paint.Contract;
+using Custom_Paint.Helper;
+using Custom_Paint.ViewModels;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Custom_Paint.Commands
 {
@@ -17,7 +20,19 @@ namespace Custom_Paint.Commands
         {
             if (parameter != null)
             {
-                if (_viewModel.ChoosenShape != null)
+                // Fill
+                if (_viewModel.FillMode == true)
+                {
+                    var point = (Point)parameter;
+                    var mainCanvas = _viewModel.GetMainCanvasFunc.Invoke();
+                    var ps = new PixelScanner(mainCanvas);
+                    var s = ps.ColorScan(point);
+                    var fill = new FillObject(s);
+                    _viewModel.PreviewObject = fill;
+                    _viewModel.AcceptPreview();
+                }
+                // Draw
+                else if (_viewModel.ChoosenShape != null)
                 {
                     // Insert previous / for edit-able objects
                     if (_viewModel.PreviewObject != null)
@@ -29,7 +44,7 @@ namespace Custom_Paint.Commands
                     _viewModel.PreviewObject = _viewModel.Factory.CreateShape(_viewModel.ChoosenShape);
                     _viewModel.Start = (Point)parameter;
                     _viewModel.PreviewObject.points = new List<Point>() { _viewModel.Start, _viewModel.Start };
-                    _viewModel.PreviewObject.StrokeThickness = 2;
+                    _viewModel.PreviewObject.StrokeThickness = _viewModel.CurrentStrokeThickness;
                     _viewModel.PreviewObject.StrokeColor = _viewModel.CurrentColor;
                     _viewModel.PreviewObject.Fill = Brushes.Transparent;
                 }

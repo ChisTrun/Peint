@@ -230,6 +230,13 @@
                         </Fluent:SplitButton.ItemTemplate>
                     </Fluent:SplitButton>
                 </Fluent:RibbonGroupBox>
+
+                <Fluent:RibbonGroupBox>
+                    <Fluent:ToggleButton
+                        Command="{Binding FillCommand}"
+                        Content="Fill">
+                    </Fluent:ToggleButton>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
@@ -238,18 +245,26 @@
         <Grid
             Grid.Row="1">
 
+            <!--<Button
+                Panel.ZIndex="10"
+                Width="50"
+                Height="30"
+                Click="Button_Click" />-->
+
             <!--Store Canvas-->
-            <Canvas
+            <Canvas Visibility="Hidden"
                 x:Name="StoreCanvas">
             </Canvas>
 
             <!--Main Canvas-->
             <Image
+                Width="{Binding ElementName=StoreCanvas, Path=ActualWidth}"
+                Height="{Binding ElementName=StoreCanvas, Path=ActualHeight}"
                 Panel.ZIndex="1"
                 x:Name="MainCanvas" />
 
             <!--Preview Canvas-->
-            <Canvas
+            <Canvas Background="Transparent"
                 x:Name="PreviewCanvas"
                 Panel.ZIndex="2" />
 
