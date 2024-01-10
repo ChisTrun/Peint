@@ -10,6 +10,7 @@ using Size = System.Windows.Size;
 using System.IO;
 using System.Windows.Media.Media3D;
 using static System.Windows.Forms.DataFormats;
+using System.Windows.Input;
 
 namespace Custom_Paint.Helper
 {
@@ -95,7 +96,29 @@ namespace Custom_Paint.Helper
                 }
             }
             WriteableBitmap bitmap = new WriteableBitmap(Width, Height, 96, 96, PixelFormats.Bgra32, null);
-            bitmap.WritePixels(new Int32Rect(0, 0, Width, Height), pixels, Width * 4, 1, 1);
+            //PixelColor[,] pixels = new PixelColor[Width, Height];
+            //WriteableBitmap bitmap = new WriteableBitmap(Width, Height, 96, 96, PixelFormats.Bgra32, null);
+            //for (int k = 0; k < Width; k++)
+            //{
+            //    for (int l = 0; l < Height; l++)
+            //    {
+            //        var val = hasRead[k, l];
+            //        if (val == true)
+            //        {
+            //            var col = new PixelColor() { Red = 100, Blue = 100, Green = 100, Alpha = 100, };
+            //            _pixelMap[k, l] = col;
+            //            PutPixels(bitmap, _pixelMap, k, l);
+            //        }
+            //        else
+            //        {
+            //            var col = new PixelColor() { Red = 100, Blue = 100, Green = 100, Alpha = 100 };
+            //            _pixelMap[k, l] = col;
+            //            PutPixels(bitmap, _pixelMap, k, l);
+            //        }
+            //    }
+            //}
+            //bitmap.WritePixels(new Int32Rect(0, 0, Width, Height), pixels, Width * 4, 0, 0);
+            Image a = new Image();
             a.Source = bitmap;
             return a;
         }
