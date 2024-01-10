@@ -86,6 +86,12 @@ namespace RectShape
             }
         }
 
+        public override IShape LoadShape(string dir_name, IReader reader)
+        {
+            var info = this.LoadInfo(dir_name, reader);
+            this.centerX = info.centerX;
+            this.centerY = info.centerY;
+            return this;
+        }
     }
-
 }

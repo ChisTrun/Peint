@@ -8,6 +8,6 @@ namespace Contract
 {
     public interface IReader
     {
-        IShape Read(object obj);
+        ShapeInfo Read(string dir_name);
     }
 }
