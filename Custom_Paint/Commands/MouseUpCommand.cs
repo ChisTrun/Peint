@@ -1,6 +1,5 @@
 ﻿using Contract;
 using Custom_Paint.ViewModels;
-using RectShape;
 using System.Drawing;
 using System.Windows.Media;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;

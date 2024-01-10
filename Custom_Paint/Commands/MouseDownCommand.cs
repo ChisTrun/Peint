@@ -1,11 +1,5 @@
-﻿using Contract;
-using Custom_Paint.ViewModels;
-using RectShape;
-using System;
-using System.Diagnostics;
+﻿using Custom_Paint.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Custom_Paint.Commands

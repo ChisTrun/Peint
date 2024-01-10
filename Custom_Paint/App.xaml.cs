@@ -20,7 +20,8 @@ namespace Custom_Paint
                 DataContext = new MainViewModel(navigation)
             };
             MainWindow.Show();
+
+            // Singleton
         }
     }
-
 }
