@@ -29,10 +29,10 @@ namespace Contract
             List<object> info = new List<object>
             {
                 Name,
-                points.Count - 1
+                points.Count
             };
 
-            for (int i = 0; i < points.Count - 1; i++)
+            for (int i = 0; i < points.Count; i++)
             {
                 info.Add(points[i].X);
                 info.Add(points[i].Y);

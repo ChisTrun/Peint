@@ -48,8 +48,6 @@ namespace Custom_Paint.Contract2
 
         public override void UpdatePoints(Point newPoint)
         {
-            if (points != null)
-                points.Add(newPoint);
         }
     }
 }

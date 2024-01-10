@@ -278,12 +278,7 @@
                     </Fluent:SplitButton>
                 </Fluent:RibbonGroupBox>
 
-                <Fluent:RibbonGroupBox
-                    Header="Fill">
-                    <Fluent:ToggleButton
-                        Command="{Binding FillCommand}"
-                        Header="🧺">
-                    </Fluent:ToggleButton>
+                <Fluent:RibbonGroupBox>
                     <Fluent:Button
                         Command="{Binding InsertImageCommand}"
                         Header="🖼">
@@ -313,7 +308,7 @@
                         ItemsSource="{Binding SaveType}"
                         SelectedItem="{Binding SelectedType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Fluent:Button
-                        Content="Save"
+                        Header="Save"
                         Command="{Binding WriteFile}" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>

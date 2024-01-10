@@ -26,7 +26,7 @@ namespace Contract
                         StrokeColor = shape.StrokeColor
                     };
 
-                    int pointsCount = info.points.Count - 1;
+                    int pointsCount = info.points.Count;
 
                     writer.WriteLine($"Name,{info.Name}");
                     writer.WriteLine($"PointCount,{pointsCount}");

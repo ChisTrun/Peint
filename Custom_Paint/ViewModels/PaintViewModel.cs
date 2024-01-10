@@ -181,16 +181,16 @@ namespace Custom_Paint.ViewModels
                 }
                 var ext = Path.GetExtension(dlg.FileName);
                 List<ShapeInfo> shapeInfos = new List<ShapeInfo>();
-                if (ext == ".png")
-                {
-                    var image = PNGHelper.InsertImage(fileName);
-                    double scale = 0.5;
-                    image.LayoutTransform = new ScaleTransform(scale, scale);
-                    this.StoredShapes.Clear();
-                    this.StoredShapes.Add(new ImageShape(image));
-                }
-                else
-                {
+                //if (ext == ".png")
+                //{
+                //    var image = PNGHelper.InsertImage(fileName);
+                //    double scale = 0.5;
+                //    image.LayoutTransform = new ScaleTransform(scale, scale);
+                //    this.StoredShapes.Clear();
+                //    this.StoredShapes.Add(new ImageShape(image));
+                //}
+                //else
+                //{
                     switch (ext)
                     {
                         case ".txt":
@@ -221,7 +221,7 @@ namespace Custom_Paint.ViewModels
                         sh.LoadInfo(s);
                         this.StoredShapes.Add(sh);
                     });
-                }
+                //}
                 this.OnAcceptPreviewAction!.Invoke();
             });
 
@@ -282,7 +282,12 @@ namespace Custom_Paint.ViewModels
                     fileName = dlg.FileName;
                 }
                 var path = dlg.FileName;
+                //var canvasMain = this.GetMainCanvasFunc!.Invoke();
+                //var w = canvasMain.ActualWidth;
+                //var h = canvasMain.ActualHeight;
                 var image = PNGHelper.InsertImage(fileName);
+                //image.Width = canvasMain.ActualWidth;
+                //image.Height = canvasMain.ActualHeight;
                 double scale = 0.5;
                 image.LayoutTransform = new ScaleTransform(scale, scale);
                 this.StoredShapes.Add(new ImageShape(image));
